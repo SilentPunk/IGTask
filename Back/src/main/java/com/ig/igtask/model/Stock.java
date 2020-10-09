@@ -1,5 +1,7 @@
 package com.ig.igtask.model;
 
+import org.apache.commons.math3.util.Precision;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,17 +9,20 @@ import javax.persistence.*;
 public class Stock {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private long id;
 
     @Column(name = "STOCK_NAME")
     private String stockName;
 
-    @Transient
-    private double currentPrice = 1 + Math.random() * (1500 - 1);
+    public Stock(){};
 
-    public int getId() {
+    public Stock(String stockName){
+        this.stockName = stockName;
+    }
+
+    public long getId() {
         return this.id;
     }
 
@@ -25,7 +30,8 @@ public class Stock {
         return this.stockName;
     }
 
+    @Transient
     public double getCurrentPrice(){
-        return this.currentPrice;
+        return Precision.round(1 + Math.random() * (1500 - 1), 2);
     }
 }

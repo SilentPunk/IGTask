@@ -1,15 +1,17 @@
 package com.ig.igtask;
 
+import com.ig.igtask.repository.StockRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Random;
-
 @SpringBootApplication
-public class IgtaskApplication {
+public class IgTaskApplication {
+
 
 	public static void main(String[] args) {
-		SpringApplication.run(IgtaskApplication.class, args);
+		SpringApplication.run(IgTaskApplication.class, args);
+
 	}
 
 }
