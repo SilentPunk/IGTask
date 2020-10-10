@@ -9,7 +9,6 @@ public class IgTaskApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(IgTaskApplication.class, args);
-
 	}
 
 }
