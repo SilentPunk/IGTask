@@ -1,16 +1,18 @@
 package com.ig.igtask.api;
 
-import com.ig.igtask.base.exceptions.NotFoundException;
+import com.ig.igtask.base.api.BaseController;
+import com.ig.igtask.base.exceptions.base.NotFoundException;
 import com.ig.igtask.model.Stock;
 import com.ig.igtask.services.StockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class StockController {
+public class StockController extends BaseController {
     private StockService stockService;
 
     public StockController(StockService stockService) {
@@ -37,20 +39,18 @@ public class StockController {
             path = "/stock",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public void createStock(@RequestBody Stock stock){
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createStock(@RequestBody @Valid Stock stock){
         stockService.createStock(stock);
     }
 
     @DeleteMapping(
             path = "/stock/{id}"
     )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStock(@PathVariable("id") long stockId){
         stockService.deleteStockById(stockId);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Not found entity for given id")
-    public void notFoundException(){
-    };
 
 }

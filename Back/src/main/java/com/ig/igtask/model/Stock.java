@@ -3,6 +3,7 @@ package com.ig.igtask.model;
 import org.apache.commons.math3.util.Precision;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "STOCK")
@@ -13,7 +14,8 @@ public class Stock {
     @Column(name = "ID")
     private long id;
 
-    @Column(name = "STOCK_NAME")
+    @Column(name = "STOCK_NAME", unique = true)
+    @NotBlank(message = "Stock name is mandatory")
     private String stockName;
 
     public Stock(){};
