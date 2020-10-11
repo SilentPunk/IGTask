@@ -23,14 +23,6 @@ public class BookmarkController extends BaseController {
         this.bookmarkService = bookmarkService;
     }
 
-    @PostMapping(
-            path = "/bookmark",
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    public void addBookmark(@RequestBody @Valid Bookmark bookmark) throws NotFoundException {
-        bookmarkService.addBookmark(bookmark);
-    }
-
     @GetMapping(
             path = "/bookmarks",
             consumes = MediaType.APPLICATION_JSON_VALUE,

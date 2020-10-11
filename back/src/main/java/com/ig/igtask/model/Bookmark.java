@@ -23,7 +23,7 @@ public class Bookmark {
     private Stock stock;
 
     @Column(name = "STOCK_PRICE")
-    private float stockPrice;
+    private double stockPrice;
 
     @OneToOne(targetEntity = User.class)
     @NotNull(message = "User data is mandatory")
@@ -39,7 +39,7 @@ public class Bookmark {
 
     public Bookmark(){};
 
-    public Bookmark(Stock stock, float stockPrice, User user){
+    public Bookmark(Stock stock, double stockPrice, User user){
         this.stock = stock;
         this.stockPrice = stockPrice;
         this.user = user;
@@ -50,19 +50,19 @@ public class Bookmark {
         this.user = user;
     }
 
-    public User getUser(){
-        return this.user;
+    public LocalDateTime getCreationTimestamp(){
+        return this.creationTimestamp;
     }
 
-    public Stock getStock(){
-        return this.stock;
+    public String getStockName(){
+        return this.stock.getStockName();
     }
 
-    public float getStockPrice(){
+    public double getStockPrice(){
         return this.stockPrice;
     }
 
-    public void setStockPrice(float stockPrice){
+    public void setStockPrice(double stockPrice){
         this.stockPrice = stockPrice;
     }
 }

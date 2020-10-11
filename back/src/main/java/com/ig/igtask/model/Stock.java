@@ -18,6 +18,9 @@ public class Stock {
     @NotBlank(message = "Stock name is mandatory")
     private String stockName;
 
+    @Transient
+    private final double currentPrice = Precision.round(1 + Math.random() * (1500 - 1), 2);
+
     public Stock(){};
 
     public Stock(String stockName){
@@ -32,8 +35,7 @@ public class Stock {
         return this.stockName;
     }
 
-    @Transient
     public double getCurrentPrice(){
-        return Precision.round(1 + Math.random() * (1500 - 1), 2);
+        return this.currentPrice;
     }
 }

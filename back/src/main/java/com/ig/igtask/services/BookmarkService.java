@@ -12,6 +12,7 @@ import com.ig.igtask.repository.StockRepository;
 import com.ig.igtask.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,24 +27,24 @@ public class BookmarkService {
         this.stockRepository = stockRepository;
     }
 
-    public void addBookmark(Bookmark incomingBookmark) throws NotFoundException {
-        User user = getUser(incomingBookmark.getUser(), "BOOKMARK-0001");
-        Stock stock = getStock(incomingBookmark);
-
-        Bookmark bookmark = this.bookmarkRepository
-                                    .findByUserIdAndStockId(user.getId(), stock.getId()).
-                                    orElse(new Bookmark(stock, user));
-
-        bookmark.setStockPrice(incomingBookmark.getStockPrice());
-        this.bookmarkRepository.save(bookmark);
-    }
+//    public void addBookmark(Bookmark incomingBookmark) throws NotFoundException {
+//        User user = getUser(incomingBookmark.getUser(), "BOOKMARK-0001");
+//        Stock stock = getStock(incomingBookmark);
+//
+//        Bookmark bookmark = this.bookmarkRepository
+//                                    .findByUserIdAndStockId(user.getId(), stock.getId()).
+//                                    orElse(new Bookmark(stock, user));
+//
+//        bookmark.setStockPrice(incomingBookmark.getStockPrice());
+//        this.bookmarkRepository.save(bookmark);
+//    }
 
     public List<Bookmark> getBookmarks(User incomingUser) throws NotFoundException, NoContentFoundException {
         User user = getUser(incomingUser, "BOOKMARK-0003");
 
         return this.bookmarkRepository
                 .findByUserId(user.getId())
-                .orElseThrow(NoContentFoundException::new);
+                .orElse(new ArrayList<>());
     }
 
 
@@ -51,12 +52,6 @@ public class BookmarkService {
         return this.userRepository
                 .findByIdentifier(incomingUser.getIdentifier())
                 .orElseThrow(() -> new NotFoundUserException(errorCode, "No user found"));
-    }
-
-    private Stock getStock(Bookmark incomingBookmark) throws NotFoundStockException {
-        return this.stockRepository
-                .findByStockName(incomingBookmark.getStock().getStockName())
-                .orElseThrow(() -> new NotFoundStockException("BOOKMARK-0002", "No stock found"));
     }
 
 
