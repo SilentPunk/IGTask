@@ -1,4 +1,6 @@
 import React from "react";
+import DispatcherHelper from "../dispatcher-helper/dispatcher-helper"
+import "./action-table.css";
 import {
   Table,
   TableRow,
@@ -8,6 +10,8 @@ import {
 import Button from "carbon-react/lib/components/button";
 
 class ActionTable extends React.Component {
+  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +21,14 @@ class ActionTable extends React.Component {
       actionButtonOnClick: this.props.actionButtonOnClick,
       fetchFunction: this.props.fetchFunction.bind(this),
       itemsToFetch: this.props.itemsToFetch || [],
+      refreshDispatcherEvent: this.props.refreshDispatcherEvent
     };
+
+    DispatcherHelper.register((actionType) => {
+      if (actionType === this.state.refreshDispatcherEvent) {
+        this.makeCall()
+      }
+    });
   }
 
   makeCall() {
@@ -50,12 +61,13 @@ class ActionTable extends React.Component {
     );
 
     cellData.push(
-      <TableCell>
+      <TableCell className="buttonCell">
         {
           <Button
+            className="actionButton"
             buttonType="primary"
             size="small"
-            onClick={this.state.actionButtonOnClick.bind(this, rowData)}
+            onClick={this.state.actionButtonOnClick.bind(this, this, rowData)}
           >
             {this.state.actionButtonName}
           </Button>

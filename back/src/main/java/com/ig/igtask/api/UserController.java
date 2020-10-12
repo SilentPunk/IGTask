@@ -5,6 +5,7 @@ import com.ig.igtask.base.exceptions.base.NoContentFoundException;
 import com.ig.igtask.base.exceptions.base.NotFoundException;
 import com.ig.igtask.model.Bookmark;
 import com.ig.igtask.model.Stock;
+import com.ig.igtask.model.StockPrice;
 import com.ig.igtask.model.User;
 import com.ig.igtask.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -53,7 +54,14 @@ public class UserController extends BaseController {
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public void createBookmark(@PathVariable("id") long userId, @RequestBody Stock stock) throws NotFoundException {
-        this.userService.createBookmark(userId, stock);
+    public void createBookmark(@PathVariable("id") long userId, @RequestBody StockPrice stockPrice) throws NotFoundException {
+        this.userService.createBookmark(userId, stockPrice);
+    }
+
+    @DeleteMapping(
+            path = "/user/{userId}/bookmark/{bookmarkId}"
+    )
+    public void removeBookmark(@PathVariable("userId") long userId, @PathVariable("bookmarkId") long bookmarkId) throws NoContentFoundException {
+        this.userService.removeBookmark(userId, bookmarkId);
     }
 }

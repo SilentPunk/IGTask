@@ -39,6 +39,10 @@ public class Bookmark {
 
     public Bookmark(){};
 
+    public Bookmark(long id){
+        this.id = id;
+    }
+
     public Bookmark(Stock stock, double stockPrice, User user){
         this.stock = stock;
         this.stockPrice = stockPrice;
@@ -48,6 +52,10 @@ public class Bookmark {
     public Bookmark(Stock stock, User user){
         this.stock = stock;
         this.user = user;
+    }
+
+    public long getId() {
+        return this.id;
     }
 
     public LocalDateTime getCreationTimestamp(){

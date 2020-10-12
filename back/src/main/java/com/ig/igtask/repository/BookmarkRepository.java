@@ -10,5 +10,7 @@ public interface BookmarkRepository extends CrudRepository<Bookmark, Long> {
 
     Optional<Bookmark> findByUserIdAndStockId(long userId, long stockId);
 
+    Optional<Bookmark> findByIdAndUserId(long id, long userId);
+
     Optional<List<Bookmark>> findByUserId(long userId);
 }

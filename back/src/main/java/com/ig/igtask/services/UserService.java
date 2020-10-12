@@ -6,6 +6,7 @@ import com.ig.igtask.base.exceptions.concrete.NotFoundStockException;
 import com.ig.igtask.base.exceptions.concrete.NotFoundUserException;
 import com.ig.igtask.model.Bookmark;
 import com.ig.igtask.model.Stock;
+import com.ig.igtask.model.StockPrice;
 import com.ig.igtask.model.User;
 import com.ig.igtask.repository.BookmarkRepository;
 import com.ig.igtask.repository.StockRepository;
@@ -26,12 +27,12 @@ public class UserService {
         this.stockRepository = stockRepository;
     }
 
-    public User createUser(User user){
+    public User createUser(User user) {
         this.userRepository.save(user);
         return user;
     }
 
-    public void removeUser(long userId){
+    public void removeUser(long userId) {
         this.userRepository.deleteById(userId);
     }
 
@@ -44,17 +45,25 @@ public class UserService {
 
     }
 
-    public void createBookmark(long userId, Stock stock) throws NotFoundException{
+    public void createBookmark(long userId, StockPrice stockPrice) throws NotFoundException {
         User user = this.userRepository.findById(userId).orElseThrow(() -> new NotFoundUserException("USER-0002", "No user found"));
-        this.stockRepository.findByStockName(stock.getStockName()).orElseThrow(() -> new NotFoundStockException("USER-0003", "No stock find"));
+        Stock stock = this.stockRepository.findByStockName(stockPrice.getStock().getStockName()).orElseThrow(() -> new NotFoundStockException("USER-0003", "No stock find"));
 
         Bookmark bookmark = this.bookmarkRepository
                 .findByUserIdAndStockId(userId, stock.getId())
                 .orElse(new Bookmark(stock, user));
 
-        bookmark.setStockPrice(stock.getCurrentPrice());
+        bookmark.setStockPrice(stockPrice.getCurrentPrice());
 
         this.bookmarkRepository.save(bookmark);
+    }
+
+    public void removeBookmark(long userId, long bookmarkId) throws NoContentFoundException {
+        Bookmark bookmark = this.bookmarkRepository
+                .findByIdAndUserId(bookmarkId, userId)
+                .orElseThrow(NoContentFoundException::new);
+
+        this.bookmarkRepository.delete(bookmark);
     }
 
 
