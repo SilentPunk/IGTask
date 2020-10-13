@@ -15,7 +15,7 @@ There are couple things that can be do better way:
 
 - We can create integration test for springboot application,
 - We can create some E2E test - for example using tools like cucumber - to test frontend with backend
-- Add tests for components
+- Add UI tests for components
 
 ### Front
 
