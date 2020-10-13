@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * Rest controller for Stock data
+ */
 @RestController
 public class StockController extends BaseController {
     private StockService stockService;

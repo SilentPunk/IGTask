@@ -34,27 +34,27 @@ public class UserController extends BaseController {
     }
 
     @DeleteMapping(
-            path = "/user/{id}"
+            path = "/user/{userId}"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeUser(@PathVariable("id") long userId){
-        this.userService.removeUser(userId);
+    public void removeUser(@PathVariable("userId") long userId){
+        this.userService.removeUserById(userId);
     }
 
     @GetMapping(
-            path = "/user/{id}/bookmarks",
+            path = "/user/{userId}/bookmarks",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public List<Bookmark> getUserBookmarks(@PathVariable("id") long userId) throws NotFoundException, NoContentFoundException {
+    public List<Bookmark> getUserBookmarks(@PathVariable("userId") long userId) throws NotFoundException, NoContentFoundException {
         return this.userService.getUserBookmarks(userId);
     }
 
     @PostMapping(
-            path = "/user/{id}/bookmark",
+            path = "/user/{userId}/bookmark",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public void createBookmark(@PathVariable("id") long userId, @RequestBody StockPrice stockPrice) throws NotFoundException {
+    public void createBookmark(@PathVariable("userId") long userId, @RequestBody StockPrice stockPrice) throws NotFoundException {
         this.userService.createBookmark(userId, stockPrice);
     }
 

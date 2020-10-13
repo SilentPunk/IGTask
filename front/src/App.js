@@ -16,7 +16,7 @@ function App() {
         divider
         separator={false}
         subheader=""
-        title="Welcom to IG Live Stock Prices Simple App"
+        title="Welcome to IG Live Stock Prices Simple App"
       ></Heading>
       <Pod className="stockPricesPod">
         <Heading

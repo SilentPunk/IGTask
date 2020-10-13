@@ -14,6 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Base controller created for handling some errors during request execution.
+ * Each of controller extends this.
+ */
 @CrossOrigin
 public abstract class BaseController {
 
