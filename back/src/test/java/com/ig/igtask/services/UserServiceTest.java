@@ -11,7 +11,7 @@ import com.ig.igtask.model.User;
 import com.ig.igtask.repository.BookmarkRepository;
 import com.ig.igtask.repository.StockRepository;
 import com.ig.igtask.repository.UserRepository;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -55,7 +55,9 @@ public class UserServiceTest {
         Mockito.verify(this.userRepository, Mockito.times(1))
                 .save(givenUser);
 
-        Assertions.assertEquals(givenUser, resultUser);
+        Assertions
+                .assertThat(resultUser)
+                .isEqualTo(givenUser);
 
     }
 
@@ -89,7 +91,9 @@ public class UserServiceTest {
         List<Bookmark> resultBookmarkList = this.userService.getUserBookmarks(givenUserId);
 
         //then
-        Assertions.assertEquals(givenBookmarkList, resultBookmarkList);
+        Assertions
+                .assertThat(resultBookmarkList)
+                .isEqualTo(givenBookmarkList);
 
         Mockito.verify(this.userRepository, Mockito.times(1))
                 .findById(givenUserId);
@@ -116,8 +120,9 @@ public class UserServiceTest {
         Mockito.when(this.userRepository.findById(givenUserId)).thenReturn(Optional.empty());
 
         //when
-        Assertions.assertThrows(NotFoundUserException.class, () ->
-                this.userService.getUserBookmarks(givenUserId));
+        Assertions
+                .assertThatThrownBy(() -> this.userService.getUserBookmarks(givenUserId))
+                .isInstanceOf(NotFoundException.class);
 
         //then
         Mockito.verify(this.userRepository, Mockito.times(1))
@@ -132,8 +137,9 @@ public class UserServiceTest {
         Mockito.when(this.bookmarkRepository.findByUserId(givenUserId)).thenReturn(Optional.empty());
 
         //when
-        Assertions.assertThrows(NoContentFoundException.class, () ->
-                this.userService.getUserBookmarks(givenUserId));
+        Assertions
+                .assertThatThrownBy(() -> this.userService.getUserBookmarks(givenUserId))
+                .isInstanceOf(NoContentFoundException.class);
 
         //then
         Mockito.verify(this.userRepository, Mockito.times(1))
@@ -182,9 +188,9 @@ public class UserServiceTest {
         Mockito.when(this.userRepository.findById(givenUserId)).thenReturn(Optional.empty());
 
         //when
-        Assertions.assertThrows(NotFoundUserException.class, () ->
-                this.userService.createBookmark(givenUserId, givenStockPrice));
-
+        Assertions
+                .assertThatThrownBy(() -> this.userService.createBookmark(givenUserId, givenStockPrice))
+                .isInstanceOf(NotFoundUserException.class);
 
         //then
         Mockito.verify(this.userRepository, Mockito.times(1))
@@ -200,9 +206,9 @@ public class UserServiceTest {
         Mockito.when(this.stockRepository.findByStockName(Mockito.any())).thenReturn(Optional.empty());
 
         //when
-        Assertions.assertThrows(NotFoundStockException.class, () ->
-                this.userService.createBookmark(givenUserId, givenStockPrice));
-
+        Assertions
+                .assertThatThrownBy(() -> this.userService.createBookmark(givenUserId, givenStockPrice))
+                .isInstanceOf(NotFoundStockException.class);
 
         //then
         Mockito.verify(this.userRepository, Mockito.times(1))
@@ -247,8 +253,9 @@ public class UserServiceTest {
                 .thenReturn(Optional.empty());
 
         //when
-        Assertions.assertThrows(NoContentFoundException.class, () ->
-                this.userService.removeBookmark(givenUserId, givenBookmarkId));
+        Assertions
+                .assertThatThrownBy(() -> this.userService.removeBookmark(givenUserId, givenBookmarkId))
+                .isInstanceOf(NoContentFoundException.class);
 
         //then
         Mockito.verify(this.bookmarkRepository, Mockito.times(1))

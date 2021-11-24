@@ -4,7 +4,7 @@ import com.ig.igtask.base.exceptions.base.NotFoundException;
 import com.ig.igtask.base.exceptions.concrete.NotFoundStockException;
 import com.ig.igtask.model.Stock;
 import com.ig.igtask.repository.StockRepository;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,8 +43,9 @@ public class StockServiceTest {
         List<Stock> result = this.stockService.getStocks();
 
         //then
-        Assertions.assertEquals(providedStockList, result);
-
+        Assertions
+                .assertThat(result)
+                .isEqualTo(providedStockList);
     }
 
     private static Stream<Arguments> getStocksProvider() {
@@ -100,7 +101,9 @@ public class StockServiceTest {
         Stock stockResult = this.stockService.findStockById(givenId);
 
         //then
-        Assertions.assertEquals(givenStock, stockResult);
+        Assertions
+                .assertThat(stockResult)
+                .isEqualTo(givenStock);
 
         Mockito.verify(this.stockRepository, Mockito.times(1))
                 .findById(givenId);
@@ -124,8 +127,9 @@ public class StockServiceTest {
                 .thenReturn(Optional.empty());
 
         //when
-        Assertions.assertThrows(NotFoundStockException.class, () ->
-                this.stockService.findStockById(givenId));
+        Assertions
+                .assertThatThrownBy(() -> this.stockService.findStockById(givenId))
+                .isInstanceOf(NotFoundException.class);
 
         //then
         Mockito.verify(this.stockRepository, Mockito.times(1))
